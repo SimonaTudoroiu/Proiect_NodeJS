@@ -13,13 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.User.hasOne(models.UserProfile);
       models.User.belongsToMany(models.Group, {
-        through: 'UserGroups'
+        through: 'UserGroup'
       })
+      models.User.hasMany(models.Post);
+      models.User.hasMany(models.Comment);
     }
   }
   User.init({
     profileId: DataTypes.INTEGER,
-    groupId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',
