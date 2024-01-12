@@ -1,10 +1,16 @@
 'use strict';
 const { randNumber } = require('@ngneat/falso')
+const {shuffle} = require('lodash')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const data = new Array(30).fill().map(() => ({
-      profileId: randNumber({ min: 1, max: 30 }),
+
+    let user_ids = Array.from({ length: 30 }, (_, i) => i + 1);
+    user_ids = shuffle(user_ids);
+
+    const data = user_ids.slice(0, 30).map(id => ({
+      profileId: id,
       createdAt: new Date(),
       updatedAt: new Date()
     }))
