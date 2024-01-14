@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const { Op } = require("sequelize");
 const db = require("../models");
+const addUser = require("./user");
 
 
 // register
@@ -31,6 +32,9 @@ const createUserProfile = async (username, password, mail, description, hobbies)
             description,
             hobbies
         });
+
+        // add instance to user
+        await addUser.addUser(newUserProfile.id);
 
 
         return newUserProfile;
