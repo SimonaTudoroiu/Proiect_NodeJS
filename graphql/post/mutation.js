@@ -1,6 +1,5 @@
 const {GraphQLObjectType, GraphQLNonNull, GraphQLString} = require("graphql");
 const {postType, postInputType, postResultType, postUpdateType} = require("./types");
-const {addPost} = require("../../handlers/post");
 const{
     addPost,
     getAllPosts,

@@ -1,5 +1,5 @@
 const { GraphQLObjectType,GraphQLNonNull,GraphQLID,GraphQLFloat,GraphQLString} = require("graphql");
-const { addUserGroup } = require("../../handlers");
+const { addUserGroup } = require("../../handlers/userGroup");
 const { userGroupType } = require("./types");
 
 const userGroupMutation = new GraphQLObjectType({

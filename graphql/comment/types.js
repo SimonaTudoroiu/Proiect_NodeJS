@@ -1,3 +1,9 @@
+const {
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLInputObjectType,
+    GraphQLID
+  } = require("graphql");
 const db = require("../../models");
 const {MessageResultType} = require("../types");
 
