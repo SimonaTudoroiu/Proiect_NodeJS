@@ -1,16 +1,28 @@
 const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../config/constants');
 
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization && req.headers.authorization.split(' ')[1]; 
+const authenticateToken = (req, res, next) => {
+  const tokenHeader = req.header('Authorization');
 
-  if (token == null) return res.sendStatus(401); 
+  console.log(tokenHeader);
+  if (!tokenHeader) {
+    return res.status(401).json({ message: 'Acces interzis - Token lipsește' });
+  }
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403); 
+  const tokenParts = tokenHeader.split(' ');
+  if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+    return res.status(401).json({ message: 'Acces interzis - Format de token invalid' });
+  }
 
-    req.user = user;
-    next(); 
-  });
+   const token = tokenParts[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Înlocuiește 'secretKey' cu cheia reală
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(403).json({ message: 'Token invalid' });
+  }
 };
 
-module.exports = {verifyToken};
+module.exports = authenticateToken;

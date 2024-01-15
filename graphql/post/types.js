@@ -61,9 +61,9 @@ const postInputType = new GraphQLInputObjectType({
     }
 });
 
-const postResultType = new GraphQLObjectType({
+const postResultType = new GraphQLUnionType({
     name: 'PostResultType',
-    type: [postType, MessageResultType],
+    types: [postType, MessageResultType],
     resolveType: (value) => {
         if(value.instanceOf(db.Post)) {
             return postType;
@@ -73,16 +73,12 @@ const postResultType = new GraphQLObjectType({
     },
 });
 
-const postUpdateType = new GraphQLObjectType({
+const postUpdateType = new GraphQLInputObjectType({
     name: 'PostUpdateType',
-    type: [postType, MessageResultType],
-    resolveType: (value) => {
-        if(value.instanceOf(db.Post)) {
-            return postType;
-        }
-
-        return MessageResultType;
-    },
+    fields: {
+        id: { type: GraphQLID },
+        newPost: { type: postInputType }
+    }
 });
 
 

@@ -62,4 +62,4 @@ const postMutation = new GraphQLObjectType({
     }
 });
 
-module.exports = {postMutation};
+module.exports = postMutation;

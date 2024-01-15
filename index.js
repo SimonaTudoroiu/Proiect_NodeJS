@@ -1,7 +1,7 @@
 const app = require('./app');
 
-app.start(3000).then(() => {
-    console.log("Server is running on http://localhost:3000");
+app.start(8080).then(() => {
+    console.log("Server is running on http://localhost:8080");
 });
 
 module.exports = app;

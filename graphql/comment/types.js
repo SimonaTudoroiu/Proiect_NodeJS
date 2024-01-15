@@ -2,7 +2,8 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInputObjectType,
-    GraphQLID
+    GraphQLID,
+    GraphQLUnionType
   } = require("graphql");
 const db = require("../../models");
 const {MessageResultType} = require("../types");
@@ -51,15 +52,15 @@ const commentInputType = new GraphQLInputObjectType({
     }
 });
 
-const commentResultType = new GraphQLObjectType({
+const commentResultType = new GraphQLUnionType({
     name: 'CommentResultType',
-    type: [commentType, MessageResultType],
+    types: [commentType, MessageResultType],
     resolveType: (value) => {
         if(value.instanceOf(db.Comment)) {
-            return commentType;
+            return "CommentType";
         }
 
-        return MessageResultType;
+        return "MessageResultType";
     }
 });
 

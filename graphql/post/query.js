@@ -58,4 +58,4 @@ const postQuery = new GraphQLObjectType({
 
 });
 
-module.exports = {postQuery};
+module.exports = postQuery;

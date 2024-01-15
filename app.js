@@ -1,7 +1,7 @@
 const express = require('express');
 const { createHandler } = require('graphql-http/lib/use/express');
 const schema = require("./graphql");
-const authorizationMiddleware = require('./middlewares/authorization');
+const authorizationMiddleware = require('./middleware/token');
 
 
 const app = express();
