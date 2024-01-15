@@ -10,4 +10,6 @@ const addUserGroup = async (userId, groupId) => {
     return newUserGroup;
 }
 
-exports.addUserGroup = addUserGroup;
+module.exports = {
+    addUserGroup
+}

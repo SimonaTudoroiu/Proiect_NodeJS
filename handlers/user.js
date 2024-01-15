@@ -10,5 +10,33 @@ const addUser = async(userProfileId) => {
     return newUser;
 }
 
+const deleteUser = async(id) => {
+    const user = await db.User.destroy({
+        where: {
+            id
+        }
+    });
 
-exports.addUser = addUser;
+    return user;
+}
+
+const updateUser = async(id, userProfileId) => {
+    const user = await db.User.update({
+        userProfileId
+    }, {
+        where: {
+            id
+        }
+    });
+
+    return user;
+}
+
+
+
+module.exports = {
+    addUser,
+    deleteUser,
+    updateUser
+
+}

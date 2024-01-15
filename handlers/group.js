@@ -67,6 +67,37 @@ const getGroupByUserId = async (userId) => {
     return groups;
 }
 
+getUnenteredGroups = async (userId) => {
+    const userGroups = await db.UserGroup.findAll({
+        where: {
+            userId
+        }
+    });
+
+    const groups = await db.Group.findAll();
+
+    const unenteredGroups = [];
+
+    for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
+        let ok = true;
+
+        for (let j = 0; j < userGroups.length; j++) {
+            const userGroup = userGroups[j];
+
+            if (userGroup.groupId === group.id) {
+                ok = false;
+            }
+        }
+
+        if (ok) {
+            unenteredGroups.push(group);
+        }
+    }
+
+    return unenteredGroups;
+}
+
 const getGroupByHobby = async (userId) => {
     const user = await db.User.findOne({
         where: {
@@ -82,7 +113,7 @@ const getGroupByHobby = async (userId) => {
 
     const userHobbies = userProfile.hobbies.split(", ");
 
-    const groups = await db.Group.findAll();
+    const groups = getUnenteredGroups(userId);
     gr = [];
 
     // the description of the group contains only one hobby
@@ -174,7 +205,15 @@ const leaveGroup = async (userId, groupId) => {
 
 
 
-
+module.exports = {
+    addGroup,
+    getAllGroups,
+    getGroupByUserId,
+    getGroupByHobby,
+    enterGroup,
+    leaveGroup,
+    getGroupByName
+}
 
 
 
