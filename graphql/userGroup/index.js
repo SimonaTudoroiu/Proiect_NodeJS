@@ -1,2 +1,2 @@
-module.exports.userGroupQuery = require("./userGroup/query");
-module.exports.userGroupMutation = require("./userGroup/mutation");
+module.exports.userGroupQuery = require("./query");
+module.exports.userGroupMutation = require("./mutation");

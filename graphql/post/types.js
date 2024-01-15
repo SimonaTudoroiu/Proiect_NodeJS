@@ -12,6 +12,8 @@ const {
 
 const db = require("../../models");
 const {MessageResultType} = require("../types");
+const {userType} = require("../user/types");
+const {groupType} = require("../group/types");
 
 
 const postType = new GraphQLObjectType({

@@ -1,2 +1,2 @@
-module.exports.userMutation = require("./user/mutation");
-module.exports.userQuery = require("./user/query");
+module.exports.userMutation = require("./mutations");
+module.exports.userQuery = require("./query");

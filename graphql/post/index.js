@@ -1,2 +1,2 @@
-module.exports.postQuery = require('./queries');
-module.exports.postMutation = require('./mutations');
+module.exports.postQuery = require('./query');
+module.exports.postMutation = require('./mutation');

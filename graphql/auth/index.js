@@ -1,2 +1,2 @@
-module.exports.authQuery = require("./auth/query");
-module.exports.authMutation = require("./auth/mutation");
+module.exports.authQuery = require("./query");
+module.exports.authMutation = require("./mutation");
