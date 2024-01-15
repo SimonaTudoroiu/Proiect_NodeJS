@@ -10,6 +10,18 @@ const addUserGroup = async (userId, groupId) => {
     return newUserGroup;
 }
 
+const deleteUserGroup = async (userId, groupId) => {
+    const userGroup = await db.UserGroup.destroy({
+        where: {
+            userId,
+            groupId
+        }
+    });
+
+    return userGroup;
+}
+
 module.exports = {
-    addUserGroup
+    addUserGroup,
+    deleteUserGroup
 }

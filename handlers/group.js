@@ -136,7 +136,7 @@ const getGroupByHobby = async (userId) => {
 }
 
 
-getGroupByName = async(name) => {
+const getGroupByName = async(name) => {
     const group = await db.Group.findOne({
         where: {
             name
@@ -203,6 +203,16 @@ const leaveGroup = async (userId, groupId) => {
     return false;
 }
 
+const deleteGroupById = async (id) => {
+    const group = await db.Group.destroy({
+        where: {
+            id
+        }
+    });
+
+    return group;
+}
+
 
 
 module.exports = {
@@ -212,7 +222,8 @@ module.exports = {
     getGroupByHobby,
     enterGroup,
     leaveGroup,
-    getGroupByName
+    getGroupByName,
+    deleteGroupById
 }
 
 
