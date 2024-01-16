@@ -1,28 +1,26 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/constants');
+const db = require("../models");
 
-const authenticateToken = (req, res, next) => {
-  const tokenHeader = req.header('Authorization');
+const authenticateToken = async (req, res, next) => {
+  const { authorization } = req.headers;
 
-  console.log(tokenHeader);
-  if (!tokenHeader) {
-    return res.status(401).json({ message: 'Acces interzis - Token lipsește' });
-  }
-
-  const tokenParts = tokenHeader.split(' ');
-  if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
-    return res.status(401).json({ message: 'Acces interzis - Format de token invalid' });
-  }
-
-   const token = tokenParts[1];
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Înlocuiește 'secretKey' cu cheia reală
-    req.user = decoded;
+  if(!authorization) {
     next();
-  } catch (err) {
-    return res.status(403).json({ message: 'Token invalid' });
+    return;
   }
+
+  const token = authorization.replace('Bearer ', '');
+
+  const data = jwt.verify(token, JWT_SECRET);
+
+  const user = await db.UserProfile.findByPk(data.userId);
+  
+  if(user) {
+    req.user = user.dataValues;
+  }
+
+  next();
 };
 
 module.exports = authenticateToken;
