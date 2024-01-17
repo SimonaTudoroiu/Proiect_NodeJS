@@ -1,4 +1,4 @@
-const {GraphQLObjectType, GraphQLNonNull, GraphQLString} = require("graphql");
+const {GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLID} = require("graphql");
 const {postType, postInputType, postResultType, postUpdateType} = require("./types");
 const{
     addPost,
@@ -18,22 +18,25 @@ const postMutation = new GraphQLObjectType({
         addPost: {
             type: postResultType,
             args: {
-                post: { type: GraphQLNonNull(postInputType) }
+                post: { type: new GraphQLNonNull(postInputType) }
             },
-            resolve: async (source, args, context) => {
-                if(!context.user) throw new Error("You are not authenticated!");
-                const post = await addPost(args.post);
-                return post;
+            resolve: async (source, { post }, context) => {
+                if (!context.user) throw new Error("You are not authenticated!");
+                const { userId, groupId, text } = post; 
+                const newPost = await addPost(userId, groupId, text); 
+                return newPost;
             }
         },
+
 
         deletePostById: {
             type: postResultType,
             args: {
-                id: { type: GraphQLNonNull(GraphQLString) }
+                id: {type: GraphQLNonNull(GraphQLID)}
             },
             resolve: async (source, args, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");
+                
                 const post = await deletePostById(args.id);
                 return post;
             }
@@ -42,7 +45,7 @@ const postMutation = new GraphQLObjectType({
         editPostById: {
             type: postResultType,
             args: {
-                id: { type: GraphQLNonNull(GraphQLString) },
+                id: { type: GraphQLNonNull(GraphQLID) },
                 post: { type: GraphQLNonNull(postUpdateType) }
             },
             resolve: async (source, args, context) => {
@@ -55,7 +58,7 @@ const postMutation = new GraphQLObjectType({
         likePostById: {
             type: postResultType,
             args: {
-                id: { type: GraphQLNonNull(GraphQLString) }
+                id: { type: GraphQLNonNull(GraphQLID) }
             },
             resolve: async (source, args, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");

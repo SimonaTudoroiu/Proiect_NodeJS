@@ -36,14 +36,15 @@ const groupQuery = new GraphQLObjectType({
             }
         },
         groupByName: {
-            type: new GraphQLList(groupType),
+            type: groupType,
             args: {
                 name: { type: GraphQLID }
             },
             resolve: async (source, {name}, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");
-                const groups = await getGroupByName(name);
-                return groups;
+                //return only one group
+                const group = await getGroupByName(name);
+                return group;
             }
         }
     }

@@ -16,6 +16,7 @@ const {userType} = require("../user/types");
 const {groupType} = require("../group/types");
 
 
+
 const postType = new GraphQLObjectType({
     name: 'PostType',
     fields: {
@@ -27,7 +28,7 @@ const postType = new GraphQLObjectType({
         updatedAt: { type: GraphQLString },
         userId: { type: GraphQLID },
         user: {
-            type: require("../user/types").userType,
+            type: userType,
             resolve: async (parent) => {
                 const user = await db.User.findOne({
                     where: {
@@ -39,7 +40,7 @@ const postType = new GraphQLObjectType({
         },
         groupId: { type: GraphQLID },
         group: {
-            type: require("../group/types").groupType,
+            type: groupType,
             resolve: async (parent) => {
                 const group = await db.Group.findOne({
                     where: {

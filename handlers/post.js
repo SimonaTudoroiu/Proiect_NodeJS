@@ -7,7 +7,7 @@ const addPost = async (userId, groupId, text) => {
         userId,
         groupId,
         text,
-        date: new Date(),
+        date: new Date().toISOString(), 
         nr_likes: 0
     });
     return newPost;

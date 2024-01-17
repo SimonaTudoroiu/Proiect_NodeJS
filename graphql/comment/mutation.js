@@ -4,7 +4,7 @@ const {
     deleteCommentById,
     updateCommentById
 } = require("../../handlers/comment");
-const { GraphQLObjectType } = require("graphql");
+const { GraphQLObjectType, GraphQLNonNull, GraphQLID } = require("graphql");
 const { commentInputType, commentUpdateType, commentResultType } = require("./types");
 
 const commentMutation = new GraphQLObjectType({
@@ -25,11 +25,10 @@ const commentMutation = new GraphQLObjectType({
         deleteCommentById: {
             type: commentResultType,
             args: {
-                input: { type: commentUpdateType }
+                id: { type: GraphQLNonNull(GraphQLID) }
             },
             resolve: async (source, {input}, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");
-                const { id } = input;
                 const comment = await deleteCommentById(id);
                 return comment;
             }
