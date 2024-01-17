@@ -9,7 +9,7 @@ const authorizationMiddleware = async (req, res, next) => {
     try {
       const decoded = jwt.verify(userToken, JWT_SECRET);
       const userId = decoded.id;
-      const user = await db.User.findByPk(userId);
+      const user = await db.UserProfile.findByPk(userId);
       if (user) {
         req.user = user.dataValues;
         next();
