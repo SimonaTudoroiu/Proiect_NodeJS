@@ -60,15 +60,19 @@ const deletePostById = async (id) => {
 }
 
 const updatePostById = async (id, text) => {
-    const post = await db.Post.update({
-        text
-    }, {
-        where: {
-            id
+    try {
+        const updatedPost = await db.Post.findByPk(id);
+        if (!updatedPost) {
+          throw new Error("Post not found");
         }
-    });
-
-    return post;
+        console.log(`updatedPost: ${updatedPost}`)
+        updatedPost.text = text;
+        await updatedPost.save();
+    
+        return updatedPost;
+      } catch (error) {
+        throw new Error(`Failed to update post: ${error.message}`);
+      }
 }
 
 const likePostById = async (id) => {

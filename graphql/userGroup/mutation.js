@@ -8,7 +8,8 @@ const userGroupMutation = new GraphQLObjectType({
         addUserGroup: {
             type: userGroupType,
             input: { type: userGroupType },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { userId, groupId } = input;
                 const userGroup = await addUserGroup(userId, groupId);
                 return userGroup;

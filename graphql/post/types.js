@@ -66,8 +66,8 @@ const postResultType = new GraphQLUnionType({
     name: 'PostResultType',
     types: [postType, messageResultType],
     resolveType: (value) => {
-        if(value.instanceOf(db.Post)) {
-            return "postType";
+        if(value instanceof db.Post ) {
+            return postType;
         }
 
         return "MessageResultType";

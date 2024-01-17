@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLNonNull, GraphQLID } = require("graphql");
+const { GraphQLObjectType } = require("graphql");
 const { groupInputType, groupUpdateType, groupResultType } = require("./types");
 const { addGroup, enterGroup, leaveGroup } = require("../../handlers/group");
 
@@ -10,30 +10,32 @@ const groupMutation = new GraphQLObjectType({
             args: {
                 input: { type: groupInputType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { name, description, userId } = input;
                 const group = await addGroup(name, description, userId);
                 return group;
             }
         },
         enterGroup: {
-            type: groupResultType, 
+            type: groupResultType,
             args: {
-              userId: { type: GraphQLNonNull(GraphQLID) }, 
-              groupId: { type: GraphQLNonNull(GraphQLID) }, 
+                input: { type: groupUpdateType }
             },
-            resolve: async (_, { userId, groupId }) => {
-              const group = await enterGroup(userId, groupId);
-              return group;
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
+                const { name, userId } = input;
+                const group = await enterGroup(name, userId);
+                return group;
             }
-          },
-          
+        },
         leaveGroup: {
             type: groupResultType,
             args: {
                 input: { type: groupUpdateType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { name, userId } = input;
                 const group = await leaveGroup(name, userId);
                 return group;

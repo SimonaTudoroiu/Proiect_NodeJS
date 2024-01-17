@@ -45,13 +45,18 @@ const postMutation = new GraphQLObjectType({
         editPostById: {
             type: postResultType,
             args: {
-                id: { type: GraphQLNonNull(GraphQLID) },
                 post: { type: GraphQLNonNull(postUpdateType) }
             },
-            resolve: async (source, args, context) => {
+            resolve: async (source, {post}, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");
-                const post = await updatePostById(args.id, args.post);
-                return post;
+                const {id, newPost} = post;
+                console.log(`id: ${id}`);
+                console.log(`newPost: ${newPost}`);
+                const {text} = newPost;
+                console.log(`text: ${text}`);
+                const postUpdated = await updatePostById(id, text);
+                console.log(`postUpdated: ${postUpdated}`)
+                return postUpdated;
             }
         },
 
