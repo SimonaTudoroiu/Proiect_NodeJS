@@ -34,15 +34,19 @@ const deleteCommentById = async (id) => {
 }
 
 const updateCommentById = async (id, text) => {
-    const comment = await db.Comment.update({
-        text
-    }, {
-        where: {
-            id
+    try {
+        const updatedComment = await db.Comment.findByPk(id);
+        if (!updatedComment) {
+          throw new Error("Comment not found");
         }
-    });
-
-    return comment;
+        console.log(`updatedComment: ${updatedComment}`)
+        updatedComment.text = text;
+        await updatedComment.save();
+    
+        return updatedComment;
+      } catch (error) {
+        throw new Error(`Failed to update comment: ${error.message}`);
+      }
 }
 
 module.exports = {

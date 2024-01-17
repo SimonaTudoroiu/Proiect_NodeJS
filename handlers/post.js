@@ -61,7 +61,7 @@ const deletePostById = async (id) => {
 
 const updatePostById = async (id, text) => {
     try {
-        const updatedPost = await db.Post.findByPk(id);
+        const updatedPost = await db.Post.findByPk(id);  
         if (!updatedPost) {
           throw new Error("Post not found");
         }

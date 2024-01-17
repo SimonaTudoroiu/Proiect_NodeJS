@@ -36,13 +36,14 @@ const commentMutation = new GraphQLObjectType({
         updateCommentById: {
             type: commentResultType,
             args: {
-                input: { type: commentUpdateType }
+                comments: { type: GraphQLNonNull(commentUpdateType) }
             },
-            resolve: async (source, {input}, context) => {
+            resolve: async (source, {comment}, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");
-                const { id, text } = input;
-                const comment = await updateCommentById(id, text);
-                return comment;
+                const {id, newComment} = comment;
+                const {text} = newComment;
+                const updatedComment = await updateCommentById(id, text);
+                return updatedComment;
             }
         }
     }
