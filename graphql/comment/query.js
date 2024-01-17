@@ -15,7 +15,8 @@ const commentQuery = new GraphQLObjectType({
             args: {
                 input: { type: commentInputType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { postId } = input;
                 const comments = await getAllPostComments(postId);
                 return comments;

@@ -15,7 +15,8 @@ const commentMutation = new GraphQLObjectType({
             args: {
                 input: { type: commentInputType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { userId, postId, text } = input;
                 const comment = await addComment(userId, postId, text);
                 return comment;
@@ -26,7 +27,8 @@ const commentMutation = new GraphQLObjectType({
             args: {
                 input: { type: commentUpdateType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { id } = input;
                 const comment = await deleteCommentById(id);
                 return comment;
@@ -37,7 +39,8 @@ const commentMutation = new GraphQLObjectType({
             args: {
                 input: { type: commentUpdateType }
             },
-            resolve: async (_, { input }) => {
+            resolve: async (source, {input}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const { id, text } = input;
                 const comment = await updateCommentById(id, text);
                 return comment;

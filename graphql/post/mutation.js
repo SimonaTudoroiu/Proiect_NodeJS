@@ -20,7 +20,8 @@ const postMutation = new GraphQLObjectType({
             args: {
                 post: { type: GraphQLNonNull(postInputType) }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const post = await addPost(args.post);
                 return post;
             }
@@ -31,7 +32,8 @@ const postMutation = new GraphQLObjectType({
             args: {
                 id: { type: GraphQLNonNull(GraphQLString) }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const post = await deletePostById(args.id);
                 return post;
             }
@@ -43,7 +45,8 @@ const postMutation = new GraphQLObjectType({
                 id: { type: GraphQLNonNull(GraphQLString) },
                 post: { type: GraphQLNonNull(postUpdateType) }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const post = await updatePostById(args.id, args.post);
                 return post;
             }
@@ -54,7 +57,8 @@ const postMutation = new GraphQLObjectType({
             args: {
                 id: { type: GraphQLNonNull(GraphQLString) }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const post = await likePostById(args.id);
                 return post;
             }

@@ -7,7 +7,8 @@ const groupQuery = new GraphQLObjectType({
     fields: {
         groups: {
             type: new GraphQLList(groupType),
-            resolve: async () => {
+            resolve: async (source, {}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const groups = await getAllGroups();
                 return groups;
             }
@@ -17,7 +18,8 @@ const groupQuery = new GraphQLObjectType({
             args: {
                 userId: { type: GraphQLID }
             },
-            resolve: async (_, { userId }) => {
+            resolve: async (source, {userId}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const groups = await getGroupByUserId(userId);
                 return groups;
             }
@@ -27,7 +29,8 @@ const groupQuery = new GraphQLObjectType({
             args: {
                 hobby: { type: GraphQLID }
             },
-            resolve: async (_, { hobby }) => {
+            resolve: async (source, {hobby}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const groups = await getGroupByHobby(hobby);
                 return groups;
             }
@@ -37,7 +40,8 @@ const groupQuery = new GraphQLObjectType({
             args: {
                 name: { type: GraphQLID }
             },
-            resolve: async (_, { name }) => {
+            resolve: async (source, {name}, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const groups = await getGroupByName(name);
                 return groups;
             }
