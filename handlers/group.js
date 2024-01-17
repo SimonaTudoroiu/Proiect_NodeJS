@@ -28,7 +28,7 @@ const addGroup = async (name, description, userId) => {
     const newGroup = await db.Group.create({
         name,
         description,
-        date: new Date(),
+        date: new Date().toISOString(),
         nr_members: 1
     });
 
