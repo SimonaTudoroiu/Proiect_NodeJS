@@ -25,7 +25,7 @@ const commentMutation = new GraphQLObjectType({
         deleteCommentById: {
             type: commentResultType,
             args: {
-                id: { type: GraphQLNonNull(GraphQLID) }
+                id: {type: GraphQLNonNull(GraphQLID)}
             },
             resolve: async (source, {input}, context) => {
                 if(!context.user) throw new Error("You are not authenticated!");

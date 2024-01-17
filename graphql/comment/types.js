@@ -13,7 +13,7 @@ const commentType = new GraphQLObjectType({
     name: 'CommentType',
     fields: {
         id: { type: GraphQLID },
-        content: { type: GraphQLString },
+        text: { type: GraphQLString },
         createdAt: { type: GraphQLString },
         updatedAt: { type: GraphQLString },
         userId: { type: GraphQLID },
@@ -46,7 +46,7 @@ const commentType = new GraphQLObjectType({
 const commentInputType = new GraphQLInputObjectType({
     name: 'CommentInputType',
     fields: {
-        content: { type: GraphQLString },
+        text: { type: GraphQLString },
         userId: { type: GraphQLID },
         postId: { type: GraphQLID }
     }
@@ -67,7 +67,7 @@ const commentResultType = new GraphQLUnionType({
 const commentUpdateType = new GraphQLInputObjectType({
     name: 'CommentUpdateType',
     fields: {
-        content: { type: GraphQLString }
+        text: { type: GraphQLString }
     }
 });
 
