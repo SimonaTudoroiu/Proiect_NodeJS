@@ -8,7 +8,7 @@ const addComment = async (userId, postId, text) => {
         userId,
         postId,
         text,
-        date: new Date()
+        date: new Date().toISOString()
     });
     return newComment;
 }
