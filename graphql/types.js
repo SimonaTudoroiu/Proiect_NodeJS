@@ -1,10 +1,10 @@
 const { GraphQLObjectType, GraphQLNonNull, GraphQLString } = require("graphql");
 
-const messageType = new GraphQLObjectType({
+const messageResultType = new GraphQLObjectType({
     name: 'MessageType',
     fields: {
         message: { type: GraphQLNonNull(GraphQLString) }
     }
 });
 
-module.exports = {messageType};
+module.exports = {messageResultType};

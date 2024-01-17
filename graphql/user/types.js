@@ -1,5 +1,5 @@
 const {GraphQLObjectType,GraphQLID,GraphQLString,GraphQLNonNull,GraphQLInputObjectType,GraphQLUnionType} = require("graphql");
-const {messageType} = require("../types");
+const {messageResultType} = require("../types");
 const db = require("../../models");
 
 const userType = new GraphQLObjectType({
@@ -11,7 +11,7 @@ const userType = new GraphQLObjectType({
 
 const userResutType = new GraphQLUnionType({
     name: "UserResultType",
-    types: [userType,messageType],
+    types: [userType,messageResultType],
     resolveType: (user) => {
         if(user instanceof db.User){
             return "UserType";

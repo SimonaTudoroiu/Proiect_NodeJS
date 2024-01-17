@@ -7,7 +7,7 @@ const {
   } = require("graphql");
 const db = require("../../models");
 const { userProfileType } = require("../userProfile/types");
-  const { messageResultType } = require("../types");
+const { messageResultType } = require("../types");
 
 const loginInputType = new GraphQLInputObjectType({
     name: 'LoginInputType',
@@ -36,12 +36,16 @@ const registerInputType = new GraphQLInputObjectType({
     }
 });
 
-const registerResultType = new GraphQLObjectType({
+const registerResultType = new GraphQLUnionType({
     name: 'RegisterResultType',
-    fields: {
-        message: { type: GraphQLString },
-        userProfile: { type: userProfileType }
-    }
+    types: [userProfileType, messageResultType],
+    resolveType: (value) => {
+        if (value instanceof db.UserProfile) {
+            return "UserProfileType";
+        }
+
+        return "MessageResult";
+    },
 });
 
 module.exports = {

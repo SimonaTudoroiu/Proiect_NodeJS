@@ -16,7 +16,8 @@ const postQuery = new GraphQLObjectType({
     fields: {
         allPosts: {
             type: GraphQLList(postType),
-            resolve: async () => {
+            resolve: async (source, { }, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const posts = await getAllPosts();
                 return posts;
             }
@@ -27,7 +28,8 @@ const postQuery = new GraphQLObjectType({
             args: {
                 groupId: { type: GraphQLID }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const posts = await getPostsByGroupId(args.groupId);
                 return posts;
             }
@@ -38,7 +40,8 @@ const postQuery = new GraphQLObjectType({
             args: {
                 id: { type: GraphQLID }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const post = await getPostById(args.id);
                 return post;
             }
@@ -49,7 +52,8 @@ const postQuery = new GraphQLObjectType({
             args: {
                 userId: { type: GraphQLID }
             },
-            resolve: async (parent, args) => {
+            resolve: async (source, args, context) => {
+                if(!context.user) throw new Error("You are not authenticated!");
                 const posts = await getPostsByUserId(args.userId);
                 return posts;
             }

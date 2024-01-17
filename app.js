@@ -1,14 +1,14 @@
 const express = require('express');
 const { createHandler } = require('graphql-http/lib/use/express');
 const schema = require("./graphql");
-const authorizationMiddleware = require('./middleware/token');
+const {authorizationMiddleware} = require('./middleware/token');
 
 
 const app = express();
 app.use(express.json());
 
 
-app.all('/graphql', authorizationMiddleware, createHandler({
+app.all('/graphql', authorizationMiddleware,  createHandler({
     schema,
     context: (req) => {
       return { user: req.raw.user };

@@ -11,7 +11,7 @@ const {
   } = require("graphql");
 
 const db = require("../../models");
-const {MessageResultType} = require("../types");
+const {messageResultType} = require("../types");
 const {userType} = require("../user/types");
 const {groupType} = require("../group/types");
 
@@ -20,8 +20,9 @@ const postType = new GraphQLObjectType({
     name: 'PostType',
     fields: {
         id: { type: GraphQLID },
-        title: { type: GraphQLString },
-        content: { type: GraphQLString },
+        text: { type: GraphQLString },
+        nr_likes : { type: GraphQLInt },
+        date: { type: GraphQLString },
         createdAt: { type: GraphQLString },
         updatedAt: { type: GraphQLString },
         userId: { type: GraphQLID },
@@ -54,22 +55,21 @@ const postType = new GraphQLObjectType({
 const postInputType = new GraphQLInputObjectType({
     name: 'PostInputType',
     fields: {
-        title: { type: GraphQLString },
-        content: { type: GraphQLString },
+        text: { type: GraphQLString },
         userId: { type: GraphQLID },
-        groupId: { type: GraphQLID }
+        groupId: { type: GraphQLID },
     }
 });
 
 const postResultType = new GraphQLUnionType({
     name: 'PostResultType',
-    types: [postType, MessageResultType],
+    types: [postType, messageResultType],
     resolveType: (value) => {
         if(value.instanceOf(db.Post)) {
-            return postType;
+            return "postType";
         }
 
-        return MessageResultType;
+        return "MessageResultType";
     },
 });
 

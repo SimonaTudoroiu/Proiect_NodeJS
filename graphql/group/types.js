@@ -3,7 +3,8 @@ const {
     GraphQLObjectType, 
     GraphQLID, 
     GraphQLString, 
-    GraphQLInt
+    GraphQLInt,
+    GraphQLInputObjectType
 } = require("graphql");
 const { messageResultType } = require("../types");
 const db = require("../../models");
@@ -17,7 +18,7 @@ const groupType = new GraphQLObjectType({
     }
 });
 
-const groupInputType = new GraphQLObjectType({
+const groupInputType = new GraphQLInputObjectType({
     name: "GroupInputType",
     fields: {
         name: { type: GraphQLString },
@@ -27,7 +28,7 @@ const groupInputType = new GraphQLObjectType({
 
 });
 
-const groupUpdateType = new GraphQLObjectType({
+const groupUpdateType = new GraphQLInputObjectType({
     name: "GroupUpdateType",
     fields: {
         name: { type: GraphQLString },
